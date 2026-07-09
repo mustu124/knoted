@@ -6,8 +6,8 @@ import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 const policies = {
-  refundPolicy: "7 days of return accepted on unused, unworn pieces",
-  shippingPolicy: "Made to order with love — ships in 2-4 business days across India"
+  refundPolicy: "No returns or exchanges unless the wrong item is received",
+  shippingPolicy: "Free shipping on orders above ₹499 · Dispatch in 2-5 working days"
 };
 
 export default function ContactPage() {
@@ -97,6 +97,18 @@ export default function ContactPage() {
           <p className="mt-3 leading-7 text-stone-700">{policies.shippingPolicy}.</p>
         </motion.article>
       </motion.section>
+
+      <motion.div
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.4 }}
+        className="mx-auto mt-6 max-w-7xl px-5 text-center sm:px-8"
+      >
+        <Link href="/policies" className="font-bold text-brand-olive underline underline-offset-4">
+          Read our full order, shipping & returns policies →
+        </Link>
+      </motion.div>
     </main>
   );
 }

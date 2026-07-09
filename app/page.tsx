@@ -11,6 +11,7 @@ import {
 } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { fadeInScale, fadeInUp, staggerContainer } from "@/lib/animations";
 import { getDisplayMediaUrl } from "@/lib/media";
@@ -953,7 +954,7 @@ function InstagramStrip({ instagramUrl }: { instagramUrl?: string }) {
 }
 
 function Footer({ settings }: { settings: PublicSettings | null }) {
-  const links = ["Home", "Shop", "About", "Contact"];
+  const links = ["Home", "Shop", "About", "Contact", "Policies"];
   const whatsappNumber = settings?.whatsappNumber || "910000000000";
   const contactDetails = {
     address: "India",
@@ -975,7 +976,7 @@ function Footer({ settings }: { settings: PublicSettings | null }) {
             <Image src="/logo.png" alt="Knoted Co. logo" fill sizes="64px" quality={95} className="object-contain" />
           </motion.div>
           <h2 className="mt-4 font-heading text-3xl font-bold text-brand-ink">Knoted Co.</h2>
-          <p className="mt-2 font-bold text-brand-olive">Cultivating Creative Spaces</p>
+          <p className="mt-2 font-bold text-brand-olive">Handmade Hair Accessories</p>
         </motion.div>
 
         <motion.nav variants={sectionReveal} className="grid gap-3">
@@ -994,22 +995,28 @@ function Footer({ settings }: { settings: PublicSettings | null }) {
 
         <motion.div variants={sectionReveal} className="md:col-span-2">
           <motion.div variants={itemReveal} className="flex gap-3">
-            {[
-              ["Instagram", settings?.socialLinks?.instagram || "https://www.instagram.com/", "◎"],
-              ["Facebook", settings?.socialLinks?.facebook || "https://www.facebook.com/", "f"],
-              ["WhatsApp", `https://wa.me/${whatsappNumber}`, "☎"]
-            ].map(([label, href, icon]) => (
-              <motion.a
-                key={label}
-                href={href}
-                aria-label={label}
-                whileHover={{ y: -4, scale: 1.06, backgroundColor: "#3F5233", color: "#ffffff" }}
-                whileTap={{ scale: 0.95 }}
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-lg font-black text-brand-ink shadow-sm"
-              >
-                {icon}
-              </motion.a>
-            ))}
+            <motion.a
+              href={settings?.socialLinks?.instagram || "https://www.instagram.com/knotedco._/"}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Instagram"
+              whileHover={{ y: -4, scale: 1.06, backgroundColor: "#3F5233", color: "#ffffff" }}
+              whileTap={{ scale: 0.95 }}
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-brand-ink shadow-sm"
+            >
+              <FooterInstagramIcon />
+            </motion.a>
+            <motion.a
+              href={`https://wa.me/${whatsappNumber}`}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="WhatsApp"
+              whileHover={{ y: -4, scale: 1.06, backgroundColor: "#3F5233", color: "#ffffff" }}
+              whileTap={{ scale: 0.95 }}
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-brand-ink shadow-sm"
+            >
+              <FooterWhatsAppIcon />
+            </motion.a>
           </motion.div>
           <motion.p variants={itemReveal} className="mt-6 font-bold text-brand-ink">
             Made with love in India
@@ -1018,19 +1025,42 @@ function Footer({ settings }: { settings: PublicSettings | null }) {
             <a href={`mailto:${contactDetails.email}`} className="hover:text-brand-red">
               {contactDetails.email}
             </a>
-            <a href="tel:+91704474478" className="hover:text-brand-red">
+            <a href={`tel:${contactDetails.phone}`} className="hover:text-brand-red">
               {contactDetails.phone}
             </a>
             <p>{contactDetails.address}</p>
-            <p>Returns: 15 days of return acceptable</p>
-            <p>Shipping: All over India shipping is available</p>
+            <p>
+              No returns/exchanges unless the wrong item is received · Free shipping above ₹499 ·{" "}
+              <Link href="/policies" className="underline underline-offset-2 hover:text-brand-red">
+                Full policies
+              </Link>
+            </p>
           </motion.div>
           <motion.p variants={itemReveal} className="mt-2 text-sm text-stone-600">
-            {settings?.footerCopyright || "\u00A9 2025 Knoted Co."}
+            {settings?.footerCopyright || "© 2026 Knoted Co."}
           </motion.p>
         </motion.div>
       </motion.div>
     </motion.footer>
+  );
+}
+
+function FooterInstagramIcon() {
+  return (
+    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="2" />
+      <circle cx="12" cy="12" r="4.2" stroke="currentColor" strokeWidth="2" />
+      <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" />
+    </svg>
+  );
+}
+
+function FooterWhatsAppIcon() {
+  return (
+    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <path d="M5.4 18.7 6.3 15A7.7 7.7 0 1 1 9 17.7l-3.6 1Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9.2 8.8c.2-.4.4-.4.7-.4h.5c.2 0 .4 0 .5.4l.6 1.4c.1.3.1.5-.1.7l-.4.5c.5 1 1.3 1.8 2.4 2.3l.6-.5c.2-.2.4-.2.7-.1l1.4.7c.3.1.4.3.4.6v.4c0 .3-.1.5-.4.7-.5.3-1.1.5-1.7.4-3-.4-5.5-2.8-6-5.8-.1-.5.1-1 .4-1.3Z" fill="currentColor" />
+    </svg>
   );
 }
 

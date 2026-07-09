@@ -1040,7 +1040,7 @@ function InstagramStrip({ instagramUrl }: { instagramUrl?: string }) {
 
 function Footer({ settings }: { settings: PublicSettings | null }) {
   const links = ["Home", "Shop", "About", "Contact"];
-  const whatsappNumber = settings?.whatsappNumber ?? "910000000000";
+  const whatsappNumber = settings?.whatsappNumber || "910000000000";
   const contactDetails = {
     address: "India",
     email: "hello@knotedco.com",

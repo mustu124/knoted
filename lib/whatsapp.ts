@@ -8,8 +8,8 @@ export type CustomerInfo = {
   pincode: string;
 };
 
-export function buildWhatsAppMessage(cartItems: CartItem[], customerInfo: CustomerInfo) {
-  const ownerPhone = process.env.NEXT_PUBLIC_OWNER_WHATSAPP ?? "910000000000";
+export function buildWhatsAppMessage(cartItems: CartItem[], customerInfo: CustomerInfo, ownerPhone?: string) {
+  const resolvedOwnerPhone = ownerPhone || process.env.NEXT_PUBLIC_OWNER_WHATSAPP || "910000000000";
   const appUrl = typeof window !== "undefined" ? window.location.origin : "";
   const total = cartItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
   const orderLines = cartItems
@@ -38,5 +38,5 @@ Phone: ${customerInfo.phone}
 Address: ${customerInfo.address}
 Pincode: ${customerInfo.pincode}${customerInfo.email ? `\nEmail: ${customerInfo.email}` : ""}`;
 
-  return `https://wa.me/${ownerPhone.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/${resolvedOwnerPhone.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
 }

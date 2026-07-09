@@ -3,16 +3,17 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 
-const storeDetails = {
-  address: "India",
-  email: "hello@knotedco.com",
+const policies = {
   refundPolicy: "7 days of return accepted on unused, unworn pieces",
   shippingPolicy: "Made to order with love — ships in 2-4 business days across India"
 };
 
 export default function ContactPage() {
-  const whatsappNumber = process.env.NEXT_PUBLIC_OWNER_WHATSAPP ?? "910000000000";
+  const { whatsappNumber, storeEmail, storeAddress } = useSiteSettings();
+  const email = storeEmail || "hello@knotedco.com";
+  const address = storeAddress || "India";
 
   return (
     <main className="min-h-screen bg-brand-cream pb-20 pt-24">
@@ -46,10 +47,10 @@ export default function ContactPage() {
             <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noreferrer" className="rounded-xl bg-white/10 p-4">
               WhatsApp: +{whatsappNumber}
             </a>
-            <a href={`mailto:${storeDetails.email}`} className="rounded-xl bg-white/10 p-4">
-              Email: {storeDetails.email}
+            <a href={`mailto:${email}`} className="rounded-xl bg-white/10 p-4">
+              Email: {email}
             </a>
-            <p className="rounded-xl bg-white/10 p-4">Address: {storeDetails.address}</p>
+            <p className="rounded-xl bg-white/10 p-4">Address: {address}</p>
           </div>
         </motion.div>
 
@@ -88,12 +89,12 @@ export default function ContactPage() {
         <motion.article variants={fadeInUp} className="rounded-2xl border border-brand-ink/10 bg-white p-6 shadow-sm">
           <p className="text-xs font-black uppercase tracking-[0.16em] text-brand-olive">Returns</p>
           <h2 className="mt-3 font-heading text-3xl font-bold text-brand-ink">Refund cancellation policy</h2>
-          <p className="mt-3 leading-7 text-stone-700">{storeDetails.refundPolicy}.</p>
+          <p className="mt-3 leading-7 text-stone-700">{policies.refundPolicy}.</p>
         </motion.article>
         <motion.article variants={fadeInUp} className="rounded-2xl border border-brand-ink/10 bg-white p-6 shadow-sm">
           <p className="text-xs font-black uppercase tracking-[0.16em] text-brand-olive">Shipping</p>
           <h2 className="mt-3 font-heading text-3xl font-bold text-brand-ink">Delivery availability</h2>
-          <p className="mt-3 leading-7 text-stone-700">{storeDetails.shippingPolicy}.</p>
+          <p className="mt-3 leading-7 text-stone-700">{policies.shippingPolicy}.</p>
         </motion.article>
       </motion.section>
     </main>

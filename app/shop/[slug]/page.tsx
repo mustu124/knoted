@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ProductCard, QuickViewModal } from "@/components/ProductCard";
 import { useCart } from "@/context/CartContext";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { getDisplayMediaUrl } from "@/lib/media";
 import type { StoreProduct } from "@/lib/product-data";
 
@@ -40,6 +41,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   const [quickViewProduct, setQuickViewProduct] = useState<StoreProduct | null>(null);
   const [isAdded, setIsAdded] = useState(false);
   const { addItem } = useCart();
+  const { whatsappNumber } = useSiteSettings();
 
   useEffect(() => {
     let isMounted = true;
@@ -294,7 +296,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
           </div>
 
           <a
-            href={`https://wa.me/${process.env.NEXT_PUBLIC_OWNER_WHATSAPP ?? "910000000000"}?text=${encodeURIComponent(`I have a question about ${product.name}`)}`}
+            href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`I have a question about ${product.name}`)}`}
             className="mt-5 inline-flex font-bold text-brand-olive underline underline-offset-4"
           >
             Have a question? Ask on WhatsApp

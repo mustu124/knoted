@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import { useDebounce } from "@/hooks/useDebounce";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { slideInRight } from "@/lib/animations";
 import { getDisplayMediaUrl } from "@/lib/media";
 import Image from "next/image";
@@ -303,6 +304,7 @@ function MobileSidebar({
   categories: NavCategory[];
 }) {
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const { whatsappNumber } = useSiteSettings();
 
   return (
     <AnimatePresence>
@@ -419,7 +421,7 @@ function MobileSidebar({
             <motion.div variants={mobileItemVariants} className="mt-auto flex items-center gap-3 pt-8">
               {[
                 ["Instagram", "https://www.instagram.com/knotedco._/", "◎"],
-                ["WhatsApp", `https://wa.me/${process.env.NEXT_PUBLIC_OWNER_WHATSAPP ?? "910000000000"}`, "☎"]
+                ["WhatsApp", `https://wa.me/${whatsappNumber}`, "☎"]
               ].map(([label, href, icon]) => (
                 <motion.a
                   key={label}

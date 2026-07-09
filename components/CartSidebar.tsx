@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useCart, type CartItem } from "@/context/CartContext";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { buildWhatsAppMessage, type CustomerInfo } from "@/lib/whatsapp";
 import { slideInRight, staggerContainer } from "@/lib/animations";
 import { getDisplayMediaUrl } from "@/lib/media";
@@ -253,6 +254,7 @@ function CheckoutModal({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderNumber, setOrderNumber] = useState("");
+  const { whatsappNumber } = useSiteSettings();
 
   const isConfirmed = Boolean(orderNumber);
   const closeModal = () => {
@@ -290,7 +292,7 @@ function CheckoutModal({
       address: form.address.trim(),
       pincode: form.pincode.trim()
     };
-    const whatsappUrl = buildWhatsAppMessage(items, customerInfo);
+    const whatsappUrl = buildWhatsAppMessage(items, customerInfo, whatsappNumber);
 
     try {
       const response = await fetch("/api/orders", {

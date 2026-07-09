@@ -295,8 +295,8 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         initial="hidden"
         animate="show"
       >
-        <motion.div variants={itemReveal} className="relative h-40 w-40 sm:h-52 sm:w-52">
-          <Image src="/logo.png" alt="Knoted Co." fill sizes="208px" priority className="object-contain" />
+        <motion.div variants={itemReveal} className="relative h-[78vw] w-[78vw] max-h-[440px] max-w-[440px] sm:h-[420px] sm:w-[420px] lg:h-[500px] lg:w-[500px]">
+          <Image src="/logo.png" alt="Knoted Co." fill sizes="(min-width: 1024px) 500px, (min-width: 640px) 420px, 78vw" priority className="object-contain" />
         </motion.div>
 
         <AnimatePresence mode="wait">

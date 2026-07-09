@@ -109,16 +109,11 @@ export function Navbar() {
       >
         <motion.nav
           aria-label="Primary navigation"
-          className="mx-auto hidden h-[88px] max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-8 px-8 md:grid"
+          className="mx-auto hidden h-[112px] max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-8 px-8 md:grid"
           style={navTextStyle}
         >
-          <motion.a
-            href="/"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="inline-flex items-center rounded-2xl bg-white p-1.5 shadow-soft ring-1 ring-brand-ink/10"
-          >
-            <Image src="/logo.png" alt="Knoted Co." width={56} height={56} quality={95} priority className="rounded-xl object-contain" />
+          <motion.a href="/" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} className="inline-flex items-center">
+            <Image src="/logo.png" alt="Knoted Co." width={92} height={92} quality={95} priority className="object-contain" />
           </motion.a>
 
           <div className="flex items-center justify-center gap-8">
@@ -193,16 +188,12 @@ export function Navbar() {
 
         <motion.nav
           aria-label="Mobile navigation"
-          className="grid h-[72px] grid-cols-3 items-center px-4 md:hidden"
+          className="grid h-[96px] grid-cols-3 items-center px-4 md:hidden"
           style={navTextStyle}
         >
           <CartButton itemCount={itemCount} onClick={openCart} />
-          <motion.a
-            href="/"
-            whileTap={{ scale: 0.96 }}
-            className="justify-self-center rounded-2xl bg-white p-1 shadow-soft ring-1 ring-brand-ink/10"
-          >
-            <Image src="/logo.png" alt="Knoted Co." width={48} height={48} quality={95} priority className="rounded-xl object-contain" />
+          <motion.a href="/" whileTap={{ scale: 0.96 }} className="justify-self-center">
+            <Image src="/logo.png" alt="Knoted Co." width={76} height={76} quality={95} priority className="object-contain" />
           </motion.a>
           <motion.button
             type="button"
@@ -345,11 +336,8 @@ function MobileSidebar({
               <CloseIcon />
             </motion.button>
 
-            <motion.div
-              variants={mobileItemVariants}
-              className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-white p-1.5 shadow-soft ring-1 ring-brand-ink/10"
-            >
-              <Image src="/logo.png" alt="Knoted Co." width={56} height={56} quality={95} className="h-full w-full rounded-xl object-contain" />
+            <motion.div variants={mobileItemVariants} className="flex h-20 w-20 items-center justify-center">
+              <Image src="/logo.png" alt="Knoted Co." width={80} height={80} quality={95} className="h-full w-full object-contain" />
             </motion.div>
 
             <motion.nav className="mt-8 grid gap-1" variants={mobileItemVariants}>

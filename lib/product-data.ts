@@ -97,6 +97,7 @@ function product(partial: {
   price: number;
   originalPrice?: number;
   image: string;
+  extraImages?: string[];
   variants?: string[];
   sizePricing?: SizePriceEntry[];
   featured?: boolean;
@@ -112,7 +113,14 @@ function product(partial: {
     description: partial.description,
     price: partial.price,
     originalPrice: partial.originalPrice,
-    images: [{ url: partial.image, publicId: partial.id, alt: partial.name }],
+    images: [
+      { url: partial.image, publicId: partial.id, alt: partial.name },
+      ...(partial.extraImages ?? []).map((url, index) => ({
+        url,
+        publicId: `${partial.id}-${index + 2}`,
+        alt: partial.name
+      }))
+    ],
     dimensions: undefined,
     careInstructions,
     shippingInfo,
@@ -422,7 +430,7 @@ export const fallbackProducts: StoreProduct[] = [
     price: 129,
     originalPrice: 149,
     image: "/products/cotton-combo-set-a.jpg",
-    variants: ["Combo Set A", "Combo Set B", "Combo Set C"],
+    extraImages: ["/products/cotton-combo-set-b.jpg", "/products/cotton-combo-set-c.jpg"],
     featured: true,
     createdAt: "2026-06-21T10:06:00.000Z"
   }),

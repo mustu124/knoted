@@ -35,6 +35,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   const [relatedProducts, setRelatedProducts] = useState<StoreProduct[]>([]);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [openSection, setOpenSection] = useState("Full Description");
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
@@ -53,6 +54,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
         if (!isMounted || !nextProduct) return;
         setProduct(nextProduct);
         setSelectedVariant(nextProduct.variants?.[0] ?? "");
+        setSelectedSize(nextProduct.sizePricing?.[0]?.size ?? "");
       })
       .catch(() => setProduct(null));
 
@@ -87,9 +89,11 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   };
 
   const currentItem = galleryItems[selectedImage];
+  const selectedSizeEntry = product?.sizePricing?.find((entry) => entry.size === selectedSize);
+  const displayPrice = selectedSizeEntry?.price ?? product?.price ?? 0;
   const savings =
-    product?.originalPrice && product.originalPrice > product.price
-      ? product.originalPrice - product.price
+    product?.originalPrice && product.originalPrice > displayPrice
+      ? product.originalPrice - displayPrice
       : 0;
 
   if (!product) {
@@ -204,7 +208,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
           <div className="mt-4 flex flex-wrap items-center gap-3">
             <span className="text-3xl font-black text-brand-red">
-              {"\u20B9"}{product.price.toLocaleString("en-IN")}
+              {"\u20B9"}{displayPrice.toLocaleString("en-IN")}
             </span>
             {product.originalPrice && (
               <span className="text-lg font-bold text-stone-400 line-through">
@@ -229,9 +233,31 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
           <p className="mt-5 line-clamp-3 leading-7 text-stone-700">{product.description}</p>
 
+          {product.sizePricing && product.sizePricing.length > 0 && (
+            <div className="mt-7">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-brand-olive">Size</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {product.sizePricing.map((entry) => (
+                  <button
+                    key={entry.size}
+                    type="button"
+                    onClick={() => setSelectedSize(entry.size)}
+                    className={`min-h-11 rounded-full border px-4 py-2.5 text-sm font-bold transition focus:outline-none focus:ring-2 focus:ring-brand-red ${
+                      selectedSize === entry.size
+                        ? "border-brand-red bg-brand-red text-white"
+                        : "border-brand-ink/15 text-brand-ink"
+                    }`}
+                  >
+                    {entry.size} — {"₹"}{entry.price.toLocaleString("en-IN")}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {product.variants && product.variants.length > 0 && (
             <div className="mt-7">
-              <p className="text-xs font-black uppercase tracking-[0.16em] text-brand-olive">Size / Variant</p>
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-brand-olive">Variant</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {product.variants.map((variant) => (
                   <button
@@ -273,7 +299,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
               whileTap={{ scale: 0.98 }}
               animate={{ backgroundColor: isAdded ? "#1fa855" : "#3F5233" }}
               onClick={() => {
-                addItem(product, quantity, selectedVariant);
+                addItem({ ...product, price: displayPrice }, quantity, selectedSize || selectedVariant);
                 setIsAdded(true);
                 window.setTimeout(() => setIsAdded(false), 1200);
               }}
@@ -286,7 +312,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => {
-                addItem(product, quantity, selectedVariant);
+                addItem({ ...product, price: displayPrice }, quantity, selectedSize || selectedVariant);
                 window.dispatchEvent(new CustomEvent("knoted-co:start-checkout"));
               }}
               className="rounded-full border border-brand-ink px-6 py-4 text-center text-sm font-black uppercase tracking-[0.14em] text-brand-ink"

@@ -28,6 +28,10 @@ export function ProductCard({ product, onQuickView, onMoreLikeThis }: ProductCar
   const cartQuantity = items
     .filter((item) => item.product._id === product._id)
     .reduce((total, item) => total + item.quantity, 0);
+  const cheapestSize = product.sizePricing?.length
+    ? [...product.sizePricing].sort((a, b) => a.price - b.price)[0]
+    : undefined;
+  const displayPrice = cheapestSize?.price ?? product.price;
 
   useEffect(() => {
     const stored = window.localStorage.getItem("knoted-co-wishlist");
@@ -47,7 +51,7 @@ export function ProductCard({ product, onQuickView, onMoreLikeThis }: ProductCar
   };
 
   const handleAddToCart = () => {
-    addItem(product);
+    addItem({ ...product, price: displayPrice }, 1, cheapestSize?.size);
     setIsAdded(true);
     window.setTimeout(() => setIsAdded(false), 1200);
   };
@@ -117,7 +121,10 @@ export function ProductCard({ product, onQuickView, onMoreLikeThis }: ProductCar
           <span className="inline-flex min-h-7 max-w-full items-center rounded-full bg-brand-cream px-2.5 py-1 text-[8px] font-black uppercase leading-tight tracking-[0.08em] text-brand-olive sm:min-h-0 sm:px-3 sm:text-[10px] sm:tracking-[0.1em]">
             {product.category}
           </span>
-          <span className="font-black text-brand-ink sm:text-base">{"\u20B9"}{product.price.toLocaleString("en-IN")}</span>
+          <span className="font-black text-brand-ink sm:text-base">
+            {cheapestSize && <span className="mr-0.5 text-[10px] font-bold uppercase text-brand-olive sm:text-xs">From </span>}
+            {"\u20B9"}{displayPrice.toLocaleString("en-IN")}
+          </span>
         </div>
 
         <div className="mt-auto grid grid-cols-2 gap-2 pt-3 sm:pt-4">
@@ -207,7 +214,12 @@ export function QuickViewModal({
               <p className="text-xs font-black uppercase tracking-[0.16em] text-brand-olive">{product.category}</p>
               <h2 className="mt-3 font-heading text-3xl font-bold text-brand-ink">{product.name}</h2>
               <p className="mt-3 text-2xl font-black text-brand-red">
-                {"\u20B9"}{product.price.toLocaleString("en-IN")}
+                {product.sizePricing?.length && <span className="mr-1 text-sm font-bold uppercase text-brand-olive">From</span>}
+                {"\u20B9"}
+                {(product.sizePricing?.length
+                  ? Math.min(...product.sizePricing.map((entry) => entry.price))
+                  : product.price
+                ).toLocaleString("en-IN")}
               </p>
               <p className="mt-5 leading-7 text-stone-700">{product.description}</p>
               <Link

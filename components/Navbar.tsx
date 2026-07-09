@@ -321,7 +321,7 @@ function MobileSidebar({
           />
           <motion.aside
             aria-label="Mobile menu"
-            className="fixed right-0 top-0 z-[70] flex h-dvh w-[86vw] max-w-sm flex-col bg-brand-cream p-5 text-brand-ink shadow-[-24px_0_60px_rgba(0,0,0,0.18)] md:hidden"
+            className="fixed right-0 top-0 z-[70] flex h-dvh w-[86vw] max-w-sm flex-col overflow-y-auto bg-brand-cream p-5 text-brand-ink shadow-[-24px_0_60px_rgba(0,0,0,0.18)] md:hidden"
             variants={sidebarVariants}
             initial="closed"
             animate="open"
@@ -419,20 +419,26 @@ function MobileSidebar({
             </motion.nav>
 
             <motion.div variants={mobileItemVariants} className="mt-auto flex items-center gap-3 pt-8">
-              {[
-                ["Instagram", "https://www.instagram.com/knotedco._/", "◎"],
-                ["WhatsApp", `https://wa.me/${whatsappNumber}`, "☎"]
-              ].map(([label, href, icon]) => (
-                <motion.a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  whileHover={{ y: -3, backgroundColor: "#3F5233", color: "#ffffff" }}
-                  className="flex h-11 w-11 items-center justify-center rounded-full bg-white font-black shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red"
-                >
-                  {icon}
-                </motion.a>
-              ))}
+              <motion.a
+                href="https://www.instagram.com/knotedco._/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram"
+                whileHover={{ y: -3, backgroundColor: "#3F5233", color: "#ffffff" }}
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red"
+              >
+                <InstagramIcon />
+              </motion.a>
+              <motion.a
+                href={`https://wa.me/${whatsappNumber}`}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="WhatsApp"
+                whileHover={{ y: -3, backgroundColor: "#3F5233", color: "#ffffff" }}
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red"
+              >
+                <WhatsAppSidebarIcon />
+              </motion.a>
             </motion.div>
           </motion.aside>
         </>
@@ -636,6 +642,25 @@ function CloseIcon() {
   return (
     <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none">
       <path d="m6 6 12 12M18 6 6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function InstagramIcon() {
+  return (
+    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="2" />
+      <circle cx="12" cy="12" r="4.2" stroke="currentColor" strokeWidth="2" />
+      <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" />
+    </svg>
+  );
+}
+
+function WhatsAppSidebarIcon() {
+  return (
+    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <path d="M5.4 18.7 6.3 15A7.7 7.7 0 1 1 9 17.7l-3.6 1Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9.2 8.8c.2-.4.4-.4.7-.4h.5c.2 0 .4 0 .5.4l.6 1.4c.1.3.1.5-.1.7l-.4.5c.5 1 1.3 1.8 2.4 2.3l.6-.5c.2-.2.4-.2.7-.1l1.4.7c.3.1.4.3.4.6v.4c0 .3-.1.5-.4.7-.5.3-1.1.5-1.7.4-3-.4-5.5-2.8-6-5.8-.1-.5.1-1 .4-1.3Z" fill="currentColor" />
     </svg>
   );
 }

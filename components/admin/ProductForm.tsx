@@ -18,7 +18,15 @@ import {
   useSortable
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { PRODUCT_CATEGORIES, slugifyProductName, type ProductCategory, type StoreProduct } from "@/lib/product-data";
+import {
+  PRODUCT_CATEGORIES,
+  PRODUCT_SIZES,
+  slugifyProductName,
+  type ProductCategory,
+  type ProductSize,
+  type SizePriceEntry,
+  type StoreProduct
+} from "@/lib/product-data";
 import { adminFetch } from "@/lib/admin-client";
 import { getDisplayMediaUrl } from "@/lib/media";
 
@@ -192,7 +200,7 @@ export function ProductForm({ product }: { product?: StoreProduct }) {
               <input value={form.subcategory ?? ""} onChange={(e) => update("subcategory", e.target.value)} className="field-input" placeholder="Add subcategories in Admin > Categories" />
             )}
           </Field>
-          <Field label="Price">
+          <Field label="Base Price (used only if no sizes are priced below)">
             <input type="number" value={form.price ?? 0} onChange={(e) => update("price", Number(e.target.value))} className="field-input" />
           </Field>
           <Field label="Original Price">
@@ -202,6 +210,29 @@ export function ProductForm({ product }: { product?: StoreProduct }) {
             <input type="number" value={form.stockCount ?? 0} onChange={(e) => update("stockCount", Number(e.target.value))} className="field-input" />
           </Field>
         </div>
+
+        <div>
+          <p className="text-sm font-bold text-brand-ink">Size Pricing</p>
+          <p className="mt-1 text-xs text-stone-500">
+            Set a price for the sizes you offer. Leave a size blank to hide it on the storefront — a size only
+            shows up for customers once it has a price.
+          </p>
+          <div className="mt-3 grid gap-3 sm:grid-cols-3">
+            {PRODUCT_SIZES.map((size) => (
+              <label key={size} className="grid gap-2 text-sm font-bold text-brand-ink">
+                {size}
+                <input
+                  type="number"
+                  value={getSizePrice(form.sizePricing, size)}
+                  onChange={(e) => update("sizePricing", updateSizePrice(form.sizePricing, size, e.target.value))}
+                  className="field-input"
+                  placeholder="Not offered"
+                />
+              </label>
+            ))}
+          </div>
+        </div>
+
         <Field label="Description">
           <textarea
             value={form.description ?? ""}
@@ -259,6 +290,23 @@ export function ProductForm({ product }: { product?: StoreProduct }) {
         <button type="button" disabled={isSaving} onClick={() => save(true)} className="rounded-full bg-brand-red px-6 py-3 font-black text-white">Publish</button>
       </div>
     </div>
+  );
+}
+
+function getSizePrice(sizePricing: SizePriceEntry[] | undefined, size: ProductSize) {
+  const price = sizePricing?.find((entry) => entry.size === size)?.price;
+  return price === undefined ? "" : String(price);
+}
+
+function updateSizePrice(current: SizePriceEntry[] | undefined, size: ProductSize, rawValue: string): SizePriceEntry[] {
+  const withoutSize = (current ?? []).filter((entry) => entry.size !== size);
+  if (rawValue.trim() === "") return withoutSize;
+
+  const price = Number(rawValue);
+  if (!Number.isFinite(price)) return withoutSize;
+
+  return [...withoutSize, { size, price }].sort(
+    (a, b) => PRODUCT_SIZES.indexOf(a.size) - PRODUCT_SIZES.indexOf(b.size)
   );
 }
 

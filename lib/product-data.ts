@@ -30,6 +30,10 @@ export function categoryFromSlug(slug: string): ProductCategory | undefined {
   return PRODUCT_CATEGORIES.find((category) => CATEGORY_SLUGS[category] === slug);
 }
 
+export const PRODUCT_SIZES = ["Small", "Medium", "Large"] as const;
+export type ProductSize = (typeof PRODUCT_SIZES)[number];
+export type SizePriceEntry = { size: ProductSize; price: number };
+
 export type StoreProduct = {
   _id: string;
   name: string;
@@ -59,6 +63,7 @@ export type StoreProduct = {
   };
   createdAt: string;
   variants?: string[];
+  sizePricing?: SizePriceEntry[];
   popularScore?: number;
 };
 
@@ -93,6 +98,7 @@ function product(partial: {
   originalPrice?: number;
   image: string;
   variants?: string[];
+  sizePricing?: SizePriceEntry[];
   featured?: boolean;
   createdAt: string;
   stockCount?: number;
@@ -118,6 +124,7 @@ function product(partial: {
     rating: { average: 4.8, count: 12 },
     createdAt: partial.createdAt,
     variants: partial.variants,
+    sizePricing: partial.sizePricing,
     popularScore: 70
   };
 }
@@ -131,7 +138,11 @@ export const fallbackProducts: StoreProduct[] = [
     description: "A soft sand georgette scrunchie with a full, ruffled finish. Available in Small, Medium, and Large.",
     price: 80,
     image: "/products/georgette-soft-sand.jpg",
-    variants: ["Small", "Medium", "Large"],
+    sizePricing: [
+      { size: "Small", price: 80 },
+      { size: "Medium", price: 80 },
+      { size: "Large", price: 80 }
+    ],
     featured: true,
     createdAt: "2026-06-20T10:00:00.000Z"
   }),
@@ -142,7 +153,11 @@ export const fallbackProducts: StoreProduct[] = [
     description: "A dreamy sage-mint georgette scrunchie with a full, ruffled finish. Available in Small, Medium, and Large.",
     price: 80,
     image: "/products/georgette-mint-whisper.jpg",
-    variants: ["Small", "Medium", "Large"],
+    sizePricing: [
+      { size: "Small", price: 80 },
+      { size: "Medium", price: 80 },
+      { size: "Large", price: 80 }
+    ],
     featured: true,
     createdAt: "2026-06-20T10:01:00.000Z"
   }),
@@ -153,7 +168,11 @@ export const fallbackProducts: StoreProduct[] = [
     description: "A rich berry-mauve georgette scrunchie with a full, ruffled finish. Available in Small, Medium, and Large.",
     price: 80,
     image: "/products/georgette-blush-berry.jpg",
-    variants: ["Small", "Medium", "Large"],
+    sizePricing: [
+      { size: "Small", price: 80 },
+      { size: "Medium", price: 80 },
+      { size: "Large", price: 80 }
+    ],
     createdAt: "2026-06-20T10:02:00.000Z"
   }),
   product({
@@ -163,7 +182,11 @@ export const fallbackProducts: StoreProduct[] = [
     description: "A deep plum georgette scrunchie with a full, ruffled finish. Available in Small, Medium, and Large.",
     price: 80,
     image: "/products/georgette-royal-plum.jpg",
-    variants: ["Small", "Medium", "Large"],
+    sizePricing: [
+      { size: "Small", price: 80 },
+      { size: "Medium", price: 80 },
+      { size: "Large", price: 80 }
+    ],
     createdAt: "2026-06-20T10:03:00.000Z"
   }),
   product({
@@ -173,7 +196,11 @@ export const fallbackProducts: StoreProduct[] = [
     description: "A bold scarlet georgette scrunchie with a full, ruffled finish. Available in Small, Medium, and Large.",
     price: 80,
     image: "/products/georgette-scarlet.jpg",
-    variants: ["Small", "Medium", "Large"],
+    sizePricing: [
+      { size: "Small", price: 80 },
+      { size: "Medium", price: 80 },
+      { size: "Large", price: 80 }
+    ],
     featured: true,
     createdAt: "2026-06-20T10:04:00.000Z"
   }),
@@ -184,7 +211,11 @@ export const fallbackProducts: StoreProduct[] = [
     description: "A soft powder blue georgette scrunchie with a full, ruffled finish. Available in Small, Medium, and Large.",
     price: 80,
     image: "/products/georgette-powder-blue.jpg",
-    variants: ["Small", "Medium", "Large"],
+    sizePricing: [
+      { size: "Small", price: 80 },
+      { size: "Medium", price: 80 },
+      { size: "Large", price: 80 }
+    ],
     createdAt: "2026-06-20T10:05:00.000Z"
   }),
   product({
@@ -194,7 +225,11 @@ export const fallbackProducts: StoreProduct[] = [
     description: "A warm taupe-grey georgette scrunchie with a full, ruffled finish. Available in Small, Medium, and Large.",
     price: 80,
     image: "/products/georgette-shadow.jpg",
-    variants: ["Small", "Medium", "Large"],
+    sizePricing: [
+      { size: "Small", price: 80 },
+      { size: "Medium", price: 80 },
+      { size: "Large", price: 80 }
+    ],
     createdAt: "2026-06-20T10:06:00.000Z"
   }),
   product({
@@ -204,7 +239,11 @@ export const fallbackProducts: StoreProduct[] = [
     description: "A tender blush-pink georgette scrunchie with a full, ruffled finish. Available in Small, Medium, and Large.",
     price: 80,
     image: "/products/georgette-blush.jpg",
-    variants: ["Small", "Medium", "Large"],
+    sizePricing: [
+      { size: "Small", price: 80 },
+      { size: "Medium", price: 80 },
+      { size: "Large", price: 80 }
+    ],
     createdAt: "2026-06-20T10:07:00.000Z"
   }),
   product({
@@ -214,7 +253,11 @@ export const fallbackProducts: StoreProduct[] = [
     description: "A deep midnight blue georgette scrunchie with a full, ruffled finish. Available in Small, Medium, and Large.",
     price: 80,
     image: "/products/georgette-midnight-blue.jpg",
-    variants: ["Small", "Medium", "Large"],
+    sizePricing: [
+      { size: "Small", price: 80 },
+      { size: "Medium", price: 80 },
+      { size: "Large", price: 80 }
+    ],
     createdAt: "2026-06-20T10:08:00.000Z"
   }),
   product({
@@ -224,7 +267,11 @@ export const fallbackProducts: StoreProduct[] = [
     description: "A clean ivory-white georgette scrunchie with a full, ruffled finish. Available in Small, Medium, and Large.",
     price: 80,
     image: "/products/georgette-snow.jpg",
-    variants: ["Small", "Medium", "Large"],
+    sizePricing: [
+      { size: "Small", price: 80 },
+      { size: "Medium", price: 80 },
+      { size: "Large", price: 80 }
+    ],
     createdAt: "2026-06-20T10:09:00.000Z"
   }),
   product({
@@ -234,7 +281,11 @@ export const fallbackProducts: StoreProduct[] = [
     description: "A soft buttery yellow georgette scrunchie with a full, ruffled finish. Available in Small, Medium, and Large.",
     price: 80,
     image: "/products/georgette-lemon-chiffon.jpg",
-    variants: ["Small", "Medium", "Large"],
+    sizePricing: [
+      { size: "Small", price: 80 },
+      { size: "Medium", price: 80 },
+      { size: "Large", price: 80 }
+    ],
     createdAt: "2026-06-20T10:10:00.000Z"
   }),
   product({
@@ -244,7 +295,11 @@ export const fallbackProducts: StoreProduct[] = [
     description: "A rich chocolate-brown georgette scrunchie with a full, ruffled finish. Available in Small, Medium, and Large.",
     price: 80,
     image: "/products/georgette-chocolate.jpg",
-    variants: ["Small", "Medium", "Large"],
+    sizePricing: [
+      { size: "Small", price: 80 },
+      { size: "Medium", price: 80 },
+      { size: "Large", price: 80 }
+    ],
     createdAt: "2026-06-20T10:11:00.000Z"
   }),
 
@@ -256,7 +311,10 @@ export const fallbackProducts: StoreProduct[] = [
     description: "A patchwork georgette scrunchie in navy, white, grey, and seafoam tones. Available in two sizes.",
     price: 155,
     image: "/products/georgette-multi-ocean.jpg",
-    variants: ["Small", "Large"],
+    sizePricing: [
+      { size: "Small", price: 155 },
+      { size: "Large", price: 155 }
+    ],
     createdAt: "2026-06-20T10:12:00.000Z"
   }),
   product({
@@ -266,7 +324,10 @@ export const fallbackProducts: StoreProduct[] = [
     description: "A patchwork georgette scrunchie in chocolate, tan, and cream tones. Available in two sizes.",
     price: 155,
     image: "/products/georgette-multi-coffee.jpg",
-    variants: ["Small", "Large"],
+    sizePricing: [
+      { size: "Small", price: 155 },
+      { size: "Large", price: 155 }
+    ],
     createdAt: "2026-06-20T10:13:00.000Z"
   }),
   product({
@@ -276,7 +337,10 @@ export const fallbackProducts: StoreProduct[] = [
     description: "A patchwork georgette scrunchie in soft pastel mint, pink, yellow, and white. Available in two sizes.",
     price: 155,
     image: "/products/georgette-multi-pastel-bloom.jpg",
-    variants: ["Small", "Large"],
+    sizePricing: [
+      { size: "Small", price: 155 },
+      { size: "Large", price: 155 }
+    ],
     featured: true,
     createdAt: "2026-06-20T10:14:00.000Z"
   }),
@@ -289,7 +353,10 @@ export const fallbackProducts: StoreProduct[] = [
     description: "A fluffy, candy-floss-soft satin scrunchie in a pastel patchwork of pink, mint, grey, and cream. Available in two sizes.",
     price: 155,
     image: "/products/satin-fluffy-candy-floss.jpg",
-    variants: ["Small", "Large"],
+    sizePricing: [
+      { size: "Small", price: 155 },
+      { size: "Large", price: 155 }
+    ],
     featured: true,
     createdAt: "2026-06-21T10:00:00.000Z"
   }),
@@ -513,6 +580,11 @@ export function normalizeProduct(product: Record<string, unknown>): StoreProduct
     rating: { average: ratingAverage, count: 0 },
     createdAt: product.createdAt ? String(product.createdAt) : new Date().toISOString(),
     variants: Array.isArray(product.variants) ? (product.variants as string[]) : undefined,
+    sizePricing: Array.isArray(product.sizePricing)
+      ? (product.sizePricing as SizePriceEntry[]).filter(
+          (entry) => entry && PRODUCT_SIZES.includes(entry.size) && Number.isFinite(Number(entry.price))
+        )
+      : undefined,
     popularScore: Number(product.popularScore ?? 0)
   };
 }

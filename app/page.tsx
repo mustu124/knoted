@@ -191,21 +191,6 @@ function isConfiguredHeroSlide(slide: NonNullable<PublicSettings["heroSlides"]>[
   );
 }
 
-const frostedTextStyle = {
-  background: "rgba(255, 248, 240, 0.52)",
-  backdropFilter: "blur(3px)",
-  WebkitBackdropFilter: "blur(3px)",
-  boxDecorationBreak: "clone",
-  WebkitBoxDecorationBreak: "clone",
-  padding: "3px 8px 5px 8px",
-  borderRadius: "4px"
-} as const;
-
-const subtitleFrostedTextStyle = {
-  ...frostedTextStyle,
-  background: "rgba(255, 248, 240, 0.40)"
-} as const;
-
 export default function HomePage() {
   const [settings, setSettings] = useState<PublicSettings | null>(null);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
@@ -284,8 +269,6 @@ export default function HomePage() {
 
 function HeroSlider({ slides }: { slides: HeroSlide[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isHeroHovered, setIsHeroHovered] = useState(false);
-  const [isMobileHero, setIsMobileHero] = useState(false);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -299,102 +282,43 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
     setActiveIndex(0);
   }, [slides]);
 
-  useEffect(() => {
-    const query = window.matchMedia("(max-width: 639px)");
-    const update = () => setIsMobileHero(query.matches);
-    update();
-    query.addEventListener("change", update);
-    return () => query.removeEventListener("change", update);
-  }, []);
-
   const goToSlide = (index: number) => {
     setActiveIndex((index + slides.length) % slides.length);
   };
 
-  const currentHeroSrc = optimizedMediaUrl(slides[activeIndex].image, isMobileHero ? 760 : 1500);
-  const nextHeroSrc = optimizedMediaUrl(slides[(activeIndex + 1) % slides.length].image, isMobileHero ? 760 : 1500);
-
-  useEffect(() => {
-    const nextImage = new window.Image();
-    nextImage.decoding = "async";
-    nextImage.src = nextHeroSrc;
-  }, [nextHeroSrc]);
-
   return (
-    <motion.section
-      className="relative min-h-[100svh] overflow-hidden bg-brand-cream sm:bg-brand-ink"
-      onHoverStart={() => setIsHeroHovered(true)}
-      onHoverEnd={() => setIsHeroHovered(false)}
-    >
-      <AnimatePresence initial={false}>
-        <motion.div
-          key={activeIndex}
-          className="absolute inset-0"
-          drag="x"
-          dragConstraints={{ left: 0, right: 0 }}
-          dragElastic={0.08}
-          onDragEnd={(_, info) => {
-            if (info.offset.x < -80) goToSlide(activeIndex + 1);
-            if (info.offset.x > 80) goToSlide(activeIndex - 1);
-          }}
-          initial={{ opacity: 0, scale: 1.015 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 1 }}
-          transition={{ duration: 0.75, ease: "easeInOut" }}
-        >
-          <motion.div
-            className="absolute inset-0 bg-brand-cream"
-            initial={{ scale: 1 }}
-            animate={{ scale: isMobileHero ? 1 : 1.08 }}
-            transition={{ duration: 5.2, ease: "easeOut" }}
-          >
-            <img
-              src={currentHeroSrc}
-              alt={slides[activeIndex].headline}
-              fetchPriority="high"
-              decoding="async"
-              className="h-full w-full object-cover"
-            />
-          </motion.div>
-        </motion.div>
-      </AnimatePresence>
-
+    <motion.section className="relative min-h-[100svh] overflow-hidden bg-brand-cream">
       <motion.div
-        className="relative z-10 flex min-h-[100svh] items-end bg-transparent px-5 pb-28 pt-24 sm:px-8 sm:pb-28 md:px-12 lg:px-20"
+        className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-5 pb-16 pt-24 text-center sm:px-8 md:px-12"
         variants={sectionReveal}
         initial="hidden"
         animate="show"
       >
+        <motion.div variants={itemReveal} className="relative h-40 w-40 sm:h-52 sm:w-52">
+          <Image src="/logo.png" alt="Knoted Co." fill sizes="208px" priority className="object-contain" />
+        </motion.div>
+
         <AnimatePresence mode="wait">
           <motion.div
             key={slides[activeIndex].headline}
-            className="max-w-3xl"
+            className="mt-4 max-w-2xl"
             variants={sectionReveal}
             initial="hidden"
             animate="show"
             exit={{ opacity: 0, y: -18, transition: { duration: 0.35 } }}
           >
-            <motion.p
-              variants={itemReveal}
-              className="mb-3 max-w-[15ch] text-[30px] font-bold uppercase leading-[1.18] sm:mb-4 sm:max-w-3xl sm:text-[44px] sm:leading-[1.15] xl:text-[60px]"
-              style={{ color: "#2C0F03" }}
-            >
-              <span style={frostedTextStyle}>Knoted Co.</span>
-            </motion.p>
             <motion.h1
               variants={itemReveal}
-              className="max-w-[15ch] font-heading text-[30px] font-bold leading-[1.18] sm:max-w-3xl sm:text-[44px] sm:leading-[1.15] xl:text-[60px]"
-              style={{ color: "#2C0F03" }}
+              className="font-heading text-[30px] font-bold leading-[1.18] text-brand-ink sm:text-[44px] sm:leading-[1.15] xl:text-[56px]"
             >
-              <span style={frostedTextStyle}>{slides[activeIndex].headline}</span>
+              {slides[activeIndex].headline}
             </motion.h1>
             {slides[activeIndex].subtitle && (
               <motion.p
                 variants={itemReveal}
-                className="mt-4 max-w-[24rem] text-base font-bold leading-8 sm:mt-5 sm:text-lg sm:font-normal sm:leading-9"
-                style={{ color: "rgba(44, 15, 3, 0.85)" }}
+                className="mx-auto mt-4 max-w-md text-base font-bold leading-8 text-brand-ink/75 sm:mt-5 sm:text-lg sm:font-normal sm:leading-9"
               >
-                <span style={subtitleFrostedTextStyle}>{slides[activeIndex].subtitle}</span>
+                {slides[activeIndex].subtitle}
               </motion.p>
             )}
             <motion.a
@@ -402,8 +326,7 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
               whileHover={{ y: -3, scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
               href={slides[activeIndex].href}
-              className="mt-7 inline-flex rounded-full px-7 py-2.5 text-[13px] font-black uppercase tracking-[0.1em] text-white shadow-[0_18px_45px_rgba(0,0,0,0.18)] sm:mt-8"
-              style={{ background: "#3F5233" }}
+              className="mt-7 inline-flex rounded-full bg-brand-red px-7 py-2.5 text-[13px] font-black uppercase tracking-[0.1em] text-white shadow-[0_18px_45px_rgba(0,0,0,0.18)] sm:mt-8"
             >
               {slides[activeIndex].cta}
             </motion.a>
@@ -411,61 +334,52 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         </AnimatePresence>
       </motion.div>
 
-      <motion.button
-        type="button"
-        aria-label="Previous slide"
-        onClick={() => goToSlide(activeIndex - 1)}
-        className="absolute left-5 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/20 text-3xl leading-none text-white opacity-0 backdrop-blur-md md:flex"
-        whileHover={{ scale: 1.08, backgroundColor: "rgba(0,0,0,0.42)" }}
-        animate={{ opacity: isHeroHovered ? 1 : 0 }}
-        transition={{ duration: 0.25 }}
-      >
-        ‹
-      </motion.button>
-      <motion.button
-        type="button"
-        aria-label="Next slide"
-        onClick={() => goToSlide(activeIndex + 1)}
-        className="absolute right-5 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/20 text-3xl leading-none text-white opacity-0 backdrop-blur-md md:flex"
-        whileHover={{ scale: 1.08, backgroundColor: "rgba(0,0,0,0.42)" }}
-        animate={{ opacity: isHeroHovered ? 1 : 0 }}
-        transition={{ duration: 0.25 }}
-      >
-        ›
-      </motion.button>
-
-      <motion.div
-        className="absolute bottom-7 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 sm:bottom-8 sm:gap-3"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.6 }}
-      >
-        {slides.map((slide, index) => (
-          <button
+      {slides.length > 1 && (
+        <>
+          <motion.button
             type="button"
-            key={slide.headline}
-            aria-label={`Go to slide ${index + 1}`}
-            onClick={() => goToSlide(index)}
-            className="relative h-2 w-8 overflow-hidden rounded-full bg-brand-ink/12 sm:w-10 sm:bg-white/35"
+            aria-label="Previous slide"
+            onClick={() => goToSlide(activeIndex - 1)}
+            className="absolute left-5 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-brand-ink/15 bg-white text-3xl leading-none text-brand-ink md:flex"
+            whileHover={{ scale: 1.08 }}
           >
-            <motion.span
-              className="absolute inset-y-0 left-0 rounded-full bg-brand-gold"
-              initial={false}
-              animate={{ width: index === activeIndex ? "100%" : "0%" }}
-              transition={{ duration: 0.45, ease: "easeOut" }}
-            />
-          </button>
-        ))}
-      </motion.div>
+            ‹
+          </motion.button>
+          <motion.button
+            type="button"
+            aria-label="Next slide"
+            onClick={() => goToSlide(activeIndex + 1)}
+            className="absolute right-5 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-brand-ink/15 bg-white text-3xl leading-none text-brand-ink md:flex"
+            whileHover={{ scale: 1.08 }}
+          >
+            ›
+          </motion.button>
 
-      <motion.div
-        className="absolute bottom-7 right-5 z-20 font-heading text-lg text-brand-ink sm:bottom-8 sm:right-6 sm:text-xl sm:text-white md:right-12"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.55, duration: 0.6 }}
-      >
-        {String(activeIndex + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
-      </motion.div>
+          <motion.div
+            className="absolute bottom-7 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 sm:bottom-8 sm:gap-3"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
+          >
+            {slides.map((slide, index) => (
+              <button
+                type="button"
+                key={slide.headline}
+                aria-label={`Go to slide ${index + 1}`}
+                onClick={() => goToSlide(index)}
+                className="relative h-2 w-8 overflow-hidden rounded-full bg-brand-ink/12 sm:w-10"
+              >
+                <motion.span
+                  className="absolute inset-y-0 left-0 rounded-full bg-brand-gold"
+                  initial={false}
+                  animate={{ width: index === activeIndex ? "100%" : "0%" }}
+                  transition={{ duration: 0.45, ease: "easeOut" }}
+                />
+              </button>
+            ))}
+          </motion.div>
+        </>
+      )}
     </motion.section>
   );
 }

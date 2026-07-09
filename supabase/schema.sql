@@ -23,6 +23,7 @@ create table if not exists public.products (
   tags text[] default '{}',
   rating jsonb default '{"average":0,"count":0}'::jsonb,
   variants text[] default '{}',
+  size_pricing jsonb not null default '[]'::jsonb,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );

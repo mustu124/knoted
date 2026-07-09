@@ -481,7 +481,7 @@ function CategoriesSection({ categories }: { categories: readonly (readonly [str
       </motion.div>
 
       <motion.div
-        className="mx-auto mt-10 grid max-w-[23rem] grid-cols-3 justify-items-center gap-x-4 gap-y-8 sm:mt-12 sm:max-w-7xl sm:grid-cols-5 sm:gap-x-7 sm:gap-y-9 lg:gap-x-9 xl:max-w-[96rem] xl:grid-cols-10 xl:gap-x-11 xl:gap-y-10"
+        className="mx-auto mt-10 grid max-w-[23rem] grid-cols-2 justify-items-center gap-x-4 gap-y-8 sm:mt-12 sm:max-w-7xl sm:grid-cols-5 sm:gap-x-7 sm:gap-y-9 lg:gap-x-9 xl:max-w-[96rem] xl:grid-cols-10 xl:gap-x-11 xl:gap-y-10"
         variants={sectionReveal}
       >
         {categories.map(([name, icon], index) => (

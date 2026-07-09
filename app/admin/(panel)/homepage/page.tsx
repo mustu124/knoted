@@ -48,7 +48,7 @@ export default function AdminHomepagePage() {
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [uploadingId, setUploadingId] = useState("");
-  const storageKey = "knoted-co-homepage-draft-v2";
+  const storageKey = "knoted-co-homepage-draft-v3";
   const sensors = useSensors(useSensor(PointerSensor));
 
   useEffect(() => {

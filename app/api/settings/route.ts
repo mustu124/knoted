@@ -14,7 +14,7 @@ const noStoreHeaders = {
 const defaultSettings = {
   heroSlides: [
     {
-      image: "/logo.png",
+      image: "/hero-scrunchies.svg",
       title: "Handmade with lots of love",
       subtitle: "Scrunchies, bows, and hair accessories made one small batch at a time.",
       ctaText: "Shop Now",
@@ -23,7 +23,7 @@ const defaultSettings = {
   ],
   mobileHeroSlides: [
     {
-      image: "/logo.png",
+      image: "/hero-scrunchies.svg",
       title: "Handmade with lots of love",
       subtitle: "Scrunchies, bows, and hair accessories made one small batch at a time.",
       ctaText: "Shop Now",

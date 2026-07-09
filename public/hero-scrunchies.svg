@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1360 600" role="img" aria-label="Three decorative scrunchie rings in green, tan, and rust">
+  <rect width="1360" height="600" fill="#F8F3E9"/>
+
+  <!-- corner accent dots -->
+  <circle cx="120" cy="95" r="7" fill="#C9973A"/>
+  <circle cx="1250" cy="90" r="6" fill="#7C8A5C"/>
+  <circle cx="150" cy="500" r="7" fill="#8B4A2B"/>
+  <circle cx="1230" cy="480" r="7" fill="#C9973A"/>
+
+  <!-- dotted baseline -->
+  <line x1="100" y1="470" x2="1260" y2="470" stroke="#2B2620" stroke-opacity="0.35" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>
+
+  <!-- Ring 1: green -->
+  <g transform="translate(260,300)">
+    <circle r="150" fill="none" stroke="#7C8A5C" stroke-width="72"/>
+    <circle r="150" fill="none" stroke="#93A374" stroke-width="72" stroke-dasharray="3 11" stroke-opacity="0.75"/>
+    <path d="M0,-150 C-70,-190 -140,-165 -170,-120 C-110,-135 -55,-125 0,-95 C55,-125 110,-135 170,-120 C140,-165 70,-190 0,-150 Z" fill="#5F6E45"/>
+  </g>
+
+  <!-- Ring 2: tan -->
+  <g transform="translate(680,300)">
+    <circle r="150" fill="none" stroke="#C2B190" stroke-width="72"/>
+    <circle r="150" fill="none" stroke="#D9CBAC" stroke-width="72" stroke-dasharray="3 11" stroke-opacity="0.75"/>
+    <path d="M0,-150 C-70,-190 -140,-165 -170,-120 C-110,-135 -55,-125 0,-95 C55,-125 110,-135 170,-120 C140,-165 70,-190 0,-150 Z" fill="#A08F6C"/>
+  </g>
+
+  <!-- Ring 3: rust -->
+  <g transform="translate(1100,300)">
+    <circle r="150" fill="none" stroke="#A6552E" stroke-width="72"/>
+    <circle r="150" fill="none" stroke="#C17847" stroke-width="72" stroke-dasharray="3 11" stroke-opacity="0.75"/>
+    <path d="M0,-150 C-70,-190 -140,-165 -170,-120 C-110,-135 -55,-125 0,-95 C55,-125 110,-135 170,-120 C140,-165 70,-190 0,-150 Z" fill="#7E3E20"/>
+  </g>
+</svg>

@@ -285,6 +285,11 @@ function CheckoutModal({
 
     setIsSubmitting(true);
 
+    // Open the tab synchronously, inside the click/submit gesture, so mobile browsers
+    // (especially iOS Safari) don't block it as a popup. We fill in its URL once the
+    // order has actually saved, below.
+    const whatsappWindow = window.open("", "_blank");
+
     const customerInfo: CustomerInfo = {
       name: form.name.trim(),
       phone: form.phone.trim(),
@@ -325,9 +330,18 @@ function CheckoutModal({
           data.order?.orderNumber ??
           `AR-${new Date().getFullYear()}-${Date.now().toString().slice(-6)}`
       );
-      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+      if (whatsappWindow) {
+        whatsappWindow.location.href = whatsappUrl;
+      } else {
+        // Popup was blocked even with the synchronous open (e.g. browser setting) —
+        // fall back to navigating the current tab so the order still reaches WhatsApp.
+        window.location.href = whatsappUrl;
+      }
       confetti({ particleCount: 120, spread: 72, origin: { y: 0.65 } });
       onComplete();
+    } catch (error) {
+      whatsappWindow?.close();
+      throw error;
     } finally {
       setIsSubmitting(false);
     }

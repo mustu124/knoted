@@ -69,7 +69,7 @@ function Sidebar({ pathname, onNavigate }: { pathname: string; onNavigate: () =>
   return (
     <div className="flex h-full flex-col p-5">
       <Link href="/admin" onClick={onNavigate} className="flex items-center gap-3">
-        <Image src="/logo.png" alt="Knoted Co." width={56} height={56} quality={95} className="rounded-xl object-contain" />
+        <Image src="/logo-mark-olive.png" alt="Knoted Co." width={44} height={44} quality={95} className="object-contain" />
         <span className="font-heading text-xl font-bold">Knoted Co.</span>
       </Link>
       <nav className="mt-8 grid gap-2">

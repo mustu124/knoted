@@ -327,8 +327,8 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <div className="relative h-[58vw] w-[58vw] max-h-[380px] max-w-[380px]">
-              <Image src="/logo-on-olive.png" alt="Knoted Co." fill sizes="380px" priority className="object-contain" />
+            <div className="relative h-[42vw] w-[42vw] max-h-[260px] max-w-[260px]">
+              <Image src="/logo-mark-cream.png" alt="Knoted Co." fill sizes="260px" priority className="object-contain" />
             </div>
           </motion.div>
         )}
@@ -972,7 +972,7 @@ function InstagramStrip({ instagramUrl }: { instagramUrl?: string }) {
               </motion.div>
             ) : (
               <div className="flex h-full w-full items-center justify-center bg-brand-cream">
-                <Image src="/logo.png" alt={image.alt} width={96} height={96} className="opacity-70" />
+                <Image src="/logo-mark-olive.png" alt={image.alt} width={72} height={72} className="opacity-70" />
               </div>
             )}
             <motion.div
@@ -1009,7 +1009,7 @@ function Footer({ settings }: { settings: PublicSettings | null }) {
       <motion.div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-4" variants={sectionReveal}>
         <motion.div variants={itemReveal}>
           <motion.div className="relative h-16 w-16 overflow-hidden rounded-xl" whileHover={{ rotate: -4, scale: 1.04 }}>
-            <Image src="/logo.png" alt="Knoted Co. logo" fill sizes="64px" quality={95} className="object-contain" />
+            <Image src="/logo-mark-olive.png" alt="Knoted Co. logo" fill sizes="64px" quality={95} className="object-contain" />
           </motion.div>
           <h2 className="mt-4 font-heading text-3xl font-bold text-brand-ink">Knoted Co.</h2>
           <p className="mt-2 font-bold text-brand-olive">Handmade Hair Accessories</p>

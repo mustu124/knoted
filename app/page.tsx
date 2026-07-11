@@ -328,7 +328,7 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
             transition={{ duration: 0.7 }}
           >
             <div className="relative h-[58vw] w-[58vw] max-h-[380px] max-w-[380px]">
-              <Image src="/logo.png" alt="Knoted Co." fill sizes="380px" priority className="object-contain" />
+              <Image src="/logo-on-olive.png" alt="Knoted Co." fill sizes="380px" priority className="object-contain" />
             </div>
           </motion.div>
         )}

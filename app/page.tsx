@@ -297,65 +297,63 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
   );
 
   return (
-    <motion.section className="relative min-h-[100svh] overflow-hidden bg-brand-cream">
-      <motion.div
-        className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl flex-col items-center justify-center gap-10 px-5 pb-16 pt-24 text-center sm:px-8 md:px-12 lg:flex-row lg:justify-between lg:gap-16 lg:text-left"
-        variants={sectionReveal}
-        initial="hidden"
-        animate="show"
-      >
-        <AnimatePresence mode="wait">
-          {hasRealImage ? (
-            <motion.div
-              key={activeImage}
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.45, ease: "easeOut" }}
-              className="relative aspect-[4/5] w-full max-w-xs shrink-0 overflow-hidden rounded-3xl shadow-soft sm:max-w-sm lg:order-2 lg:max-w-md xl:max-w-lg"
-            >
-              <Image
-                src={optimizedMediaUrl(activeImage, 1000)}
-                alt={slides[activeIndex].headline}
-                fill
-                sizes="(min-width: 1280px) 512px, (min-width: 1024px) 448px, (min-width: 640px) 384px, 88vw"
-                priority
-                className="object-cover"
-              />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="logo"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.45, ease: "easeOut" }}
-              className="relative h-[78vw] w-[78vw] max-h-[440px] max-w-[440px] shrink-0 sm:h-[420px] sm:w-[420px] lg:order-2 lg:h-[440px] lg:w-[440px] xl:h-[500px] xl:w-[500px]"
-            >
-              <Image src="/logo.png" alt="Knoted Co." fill sizes="(min-width: 1024px) 500px, (min-width: 640px) 420px, 78vw" priority className="object-contain" />
-            </motion.div>
-          )}
-        </AnimatePresence>
+    <motion.section className="relative min-h-[100svh] overflow-hidden bg-brand-olive">
+      <AnimatePresence mode="wait">
+        {hasRealImage ? (
+          <motion.div
+            key={activeImage}
+            className="absolute inset-0"
+            initial={{ opacity: 0, scale: 1.04 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+          >
+            <Image
+              src={optimizedMediaUrl(activeImage, 1600)}
+              alt={slides[activeIndex].headline}
+              fill
+              sizes="100vw"
+              priority
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-black/10" />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="logo-bg"
+            className="absolute inset-0 flex items-center justify-center bg-brand-olive"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.7 }}
+          >
+            <div className="relative h-[58vw] w-[58vw] max-h-[380px] max-w-[380px]">
+              <Image src="/logo.png" alt="Knoted Co." fill sizes="380px" priority className="object-contain" />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
+      <div className="relative z-10 flex min-h-[100svh] items-end px-5 pb-20 pt-24 sm:px-8 sm:pb-24 md:px-12">
         <AnimatePresence mode="wait">
           <motion.div
             key={slides[activeIndex].headline}
-            className="max-w-2xl lg:order-1 lg:max-w-lg"
+            className="max-w-md rounded-3xl bg-brand-cream/92 p-6 text-left shadow-[0_20px_50px_rgba(0,0,0,0.28)] backdrop-blur-sm sm:p-8"
             variants={sectionReveal}
             initial="hidden"
             animate="show"
-            exit={{ opacity: 0, y: -18, transition: { duration: 0.35 } }}
+            exit={{ opacity: 0, y: -14, transition: { duration: 0.3 } }}
           >
             <motion.h1
               variants={itemReveal}
-              className="font-heading text-[30px] font-bold leading-[1.18] text-brand-ink sm:text-[44px] sm:leading-[1.15] xl:text-[56px]"
+              className="font-heading text-[26px] font-bold leading-[1.18] text-brand-ink sm:text-[36px] sm:leading-[1.15]"
             >
               {slides[activeIndex].headline}
             </motion.h1>
             {slides[activeIndex].subtitle && (
               <motion.p
                 variants={itemReveal}
-                className="mx-auto mt-4 max-w-md text-base font-bold leading-8 text-brand-ink/75 sm:mt-5 sm:text-lg sm:font-normal sm:leading-9 lg:mx-0"
+                className="mt-3 text-sm font-bold leading-7 text-brand-ink/75 sm:mt-4 sm:text-base sm:font-normal sm:leading-8"
               >
                 {slides[activeIndex].subtitle}
               </motion.p>
@@ -365,13 +363,13 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
               whileHover={{ y: -3, scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
               href={slides[activeIndex].href}
-              className="mt-7 inline-flex rounded-full bg-brand-red px-7 py-2.5 text-[13px] font-black uppercase tracking-[0.1em] text-white shadow-[0_18px_45px_rgba(0,0,0,0.18)] sm:mt-8"
+              className="mt-6 inline-flex rounded-full bg-brand-red px-7 py-2.5 text-[13px] font-black uppercase tracking-[0.1em] text-white shadow-[0_18px_45px_rgba(0,0,0,0.18)]"
             >
               {slides[activeIndex].cta}
             </motion.a>
           </motion.div>
         </AnimatePresence>
-      </motion.div>
+      </div>
 
       {slides.length > 1 && (
         <>
@@ -379,8 +377,8 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
             type="button"
             aria-label="Previous slide"
             onClick={() => goToSlide(activeIndex - 1)}
-            className="absolute left-5 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-brand-ink/15 bg-white text-3xl leading-none text-brand-ink md:flex"
-            whileHover={{ scale: 1.08 }}
+            className="absolute left-5 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/20 text-3xl leading-none text-white backdrop-blur-md md:flex"
+            whileHover={{ scale: 1.08, backgroundColor: "rgba(0,0,0,0.42)" }}
           >
             ‹
           </motion.button>
@@ -388,17 +386,17 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
             type="button"
             aria-label="Next slide"
             onClick={() => goToSlide(activeIndex + 1)}
-            className="absolute right-5 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-brand-ink/15 bg-white text-3xl leading-none text-brand-ink md:flex"
-            whileHover={{ scale: 1.08 }}
+            className="absolute right-5 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/20 text-3xl leading-none text-white backdrop-blur-md md:flex"
+            whileHover={{ scale: 1.08, backgroundColor: "rgba(0,0,0,0.42)" }}
           >
             ›
           </motion.button>
 
           <motion.div
-            className="absolute bottom-7 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 sm:bottom-8 sm:gap-3"
-            initial={{ opacity: 0, y: 20 }}
+            className="absolute right-5 top-6 z-20 flex items-center gap-2 sm:right-8 sm:top-8"
+            initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
           >
             {slides.map((slide, index) => (
               <button
@@ -406,7 +404,7 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                 key={slide.headline}
                 aria-label={`Go to slide ${index + 1}`}
                 onClick={() => goToSlide(index)}
-                className="relative h-2 w-8 overflow-hidden rounded-full bg-brand-ink/12 sm:w-10"
+                className="relative h-2 w-8 overflow-hidden rounded-full bg-white/35 sm:w-10"
               >
                 <motion.span
                   className="absolute inset-y-0 left-0 rounded-full bg-brand-gold"

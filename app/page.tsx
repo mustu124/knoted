@@ -176,7 +176,10 @@ function looksLikeDatabaseId(value?: string) {
 
 function getHeroSlideHeadline(slide: NonNullable<PublicSettings["heroSlides"]>[number]) {
   const candidates = [slide.title, slide.headline, slide.name].filter(Boolean) as string[];
-  return candidates.find((candidate) => !looksLikeDatabaseId(candidate)) ?? fallbackHeroHeadline;
+  return (
+    candidates.find((candidate) => !looksLikeDatabaseId(candidate) && !/^Homepage slide \d+$/i.test(candidate.trim())) ??
+    fallbackHeroHeadline
+  );
 }
 
 function isConfiguredHeroSlide(slide: NonNullable<PublicSettings["heroSlides"]>[number]) {
@@ -296,7 +299,7 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
   return (
     <motion.section className="relative min-h-[100svh] overflow-hidden bg-brand-cream">
       <motion.div
-        className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-5 pb-16 pt-24 text-center sm:px-8 md:px-12"
+        className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl flex-col items-center justify-center gap-10 px-5 pb-16 pt-24 text-center sm:px-8 md:px-12 lg:flex-row lg:justify-between lg:gap-16 lg:text-left"
         variants={sectionReveal}
         initial="hidden"
         animate="show"
@@ -309,13 +312,13 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.98 }}
               transition={{ duration: 0.45, ease: "easeOut" }}
-              className="relative aspect-[4/5] w-full max-w-xs overflow-hidden rounded-3xl shadow-soft sm:max-w-sm lg:max-w-md"
+              className="relative aspect-[4/5] w-full max-w-xs shrink-0 overflow-hidden rounded-3xl shadow-soft sm:max-w-sm lg:order-2 lg:max-w-md xl:max-w-lg"
             >
               <Image
                 src={optimizedMediaUrl(activeImage, 1000)}
                 alt={slides[activeIndex].headline}
                 fill
-                sizes="(min-width: 1024px) 420px, (min-width: 640px) 384px, 88vw"
+                sizes="(min-width: 1280px) 512px, (min-width: 1024px) 448px, (min-width: 640px) 384px, 88vw"
                 priority
                 className="object-cover"
               />
@@ -327,7 +330,7 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.98 }}
               transition={{ duration: 0.45, ease: "easeOut" }}
-              className="relative h-[78vw] w-[78vw] max-h-[440px] max-w-[440px] sm:h-[420px] sm:w-[420px] lg:h-[500px] lg:w-[500px]"
+              className="relative h-[78vw] w-[78vw] max-h-[440px] max-w-[440px] shrink-0 sm:h-[420px] sm:w-[420px] lg:order-2 lg:h-[440px] lg:w-[440px] xl:h-[500px] xl:w-[500px]"
             >
               <Image src="/logo.png" alt="Knoted Co." fill sizes="(min-width: 1024px) 500px, (min-width: 640px) 420px, 78vw" priority className="object-contain" />
             </motion.div>
@@ -337,7 +340,7 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         <AnimatePresence mode="wait">
           <motion.div
             key={slides[activeIndex].headline}
-            className="mt-4 max-w-2xl"
+            className="max-w-2xl lg:order-1 lg:max-w-lg"
             variants={sectionReveal}
             initial="hidden"
             animate="show"
@@ -352,7 +355,7 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
             {slides[activeIndex].subtitle && (
               <motion.p
                 variants={itemReveal}
-                className="mx-auto mt-4 max-w-md text-base font-bold leading-8 text-brand-ink/75 sm:mt-5 sm:text-lg sm:font-normal sm:leading-9"
+                className="mx-auto mt-4 max-w-md text-base font-bold leading-8 text-brand-ink/75 sm:mt-5 sm:text-lg sm:font-normal sm:leading-9 lg:mx-0"
               >
                 {slides[activeIndex].subtitle}
               </motion.p>

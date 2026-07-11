@@ -110,11 +110,11 @@ export function Navbar() {
       >
         <motion.nav
           aria-label="Primary navigation"
-          className="mx-auto hidden h-[112px] max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-8 px-8 md:grid"
+          className="mx-auto hidden h-[76px] max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-8 px-8 md:grid"
           style={navTextStyle}
         >
           <motion.a href="/" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} className="inline-flex items-center">
-            <Image src="/logo.png" alt="Knoted Co." width={92} height={92} quality={95} priority className="object-contain" />
+            <Image src="/logo.png" alt="Knoted Co." width={62} height={62} quality={95} priority className="object-contain" />
           </motion.a>
 
           <div className="flex items-center justify-center gap-8">
@@ -189,12 +189,12 @@ export function Navbar() {
 
         <motion.nav
           aria-label="Mobile navigation"
-          className="grid h-[96px] grid-cols-3 items-center px-4 md:hidden"
+          className="grid h-[68px] grid-cols-3 items-center px-4 md:hidden"
           style={navTextStyle}
         >
           <CartButton itemCount={itemCount} onClick={openCart} />
           <motion.a href="/" whileTap={{ scale: 0.96 }} className="justify-self-center">
-            <Image src="/logo.png" alt="Knoted Co." width={76} height={76} quality={95} priority className="object-contain" />
+            <Image src="/logo.png" alt="Knoted Co." width={54} height={54} quality={95} priority className="object-contain" />
           </motion.a>
           <motion.button
             type="button"

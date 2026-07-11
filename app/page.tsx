@@ -181,14 +181,13 @@ function getHeroSlideHeadline(slide: NonNullable<PublicSettings["heroSlides"]>[n
 
 function isConfiguredHeroSlide(slide: NonNullable<PublicSettings["heroSlides"]>[number]) {
   const image = (slide.image ?? "").trim();
-  const title = getHeroSlideHeadline(slide).trim();
 
+  // Only require a real, non-placeholder image. Slides used to also get rejected for
+  // still having the auto-generated "Homepage slide N" title, which meant a slide with
+  // a real uploaded photo would silently vanish from the site if the admin forgot to
+  // rename that field — getHeroSlideHeadline still falls back sensibly either way.
   return Boolean(
-    image &&
-      image !== "/logo.png" &&
-      !image.includes("images.unsplash.com/photo-1618220179428-22790b461013") &&
-      title &&
-      !/^Homepage slide \d+$/i.test(title)
+    image && image !== "/logo.png" && !image.includes("images.unsplash.com/photo-1618220179428-22790b461013")
   );
 }
 

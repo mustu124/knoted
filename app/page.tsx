@@ -286,6 +286,13 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
     setActiveIndex((index + slides.length) % slides.length);
   };
 
+  const activeImage = slides[activeIndex].image;
+  const hasRealImage = Boolean(
+    activeImage &&
+      activeImage !== "/logo.png" &&
+      !activeImage.includes("images.unsplash.com/photo-1618220179428-22790b461013")
+  );
+
   return (
     <motion.section className="relative min-h-[100svh] overflow-hidden bg-brand-cream">
       <motion.div
@@ -294,9 +301,38 @@ function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         initial="hidden"
         animate="show"
       >
-        <motion.div variants={itemReveal} className="relative h-[78vw] w-[78vw] max-h-[440px] max-w-[440px] sm:h-[420px] sm:w-[420px] lg:h-[500px] lg:w-[500px]">
-          <Image src="/logo.png" alt="Knoted Co." fill sizes="(min-width: 1024px) 500px, (min-width: 640px) 420px, 78vw" priority className="object-contain" />
-        </motion.div>
+        <AnimatePresence mode="wait">
+          {hasRealImage ? (
+            <motion.div
+              key={activeImage}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.45, ease: "easeOut" }}
+              className="relative aspect-[4/5] w-full max-w-xs overflow-hidden rounded-3xl shadow-soft sm:max-w-sm lg:max-w-md"
+            >
+              <Image
+                src={optimizedMediaUrl(activeImage, 1000)}
+                alt={slides[activeIndex].headline}
+                fill
+                sizes="(min-width: 1024px) 420px, (min-width: 640px) 384px, 88vw"
+                priority
+                className="object-cover"
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="logo"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.45, ease: "easeOut" }}
+              className="relative h-[78vw] w-[78vw] max-h-[440px] max-w-[440px] sm:h-[420px] sm:w-[420px] lg:h-[500px] lg:w-[500px]"
+            >
+              <Image src="/logo.png" alt="Knoted Co." fill sizes="(min-width: 1024px) 500px, (min-width: 640px) 420px, 78vw" priority className="object-contain" />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <AnimatePresence mode="wait">
           <motion.div
